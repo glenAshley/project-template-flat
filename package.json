@@ -19,15 +19,22 @@
   },
   "homepage": "https://github.com/glenashley/project-template-flat#readme",
   "devDependencies": {
+    "babelify": "^7.2.0",
     "browser-sync": "^2.10.0",
+    "browserify": "^12.0.1",
     "gulp": "^3.9.0",
     "gulp-jade": "^1.1.0",
     "gulp-less": "^3.0.5",
     "gulp-plumber": "^1.0.1",
     "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.5.1",
     "imagemin-pngquant": "^4.2.0",
     "less-plugin-autoprefix": "^1.5.1",
     "node-notifier": "^4.3.1",
-    "normalize.css": "^3.0.3"
+    "normalize.css": "^3.0.3",
+    "through2": "^2.0.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.6.1"
   }
 }
