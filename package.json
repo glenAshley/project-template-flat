@@ -1,0 +1,21 @@
+{
+  "name": "project-template-flat",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Template for flat project",
+  "main": "source/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/glenashley/project-template-flat.git"
+  },
+  "author": "gap@screenrev.com",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/glenashley/project-template-flat/issues"
+  },
+  "homepage": "https://github.com/glenashley/project-template-flat#readme"
+}
