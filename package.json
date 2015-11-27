@@ -17,5 +17,12 @@
   "bugs": {
     "url": "https://github.com/glenashley/project-template-flat/issues"
   },
-  "homepage": "https://github.com/glenashley/project-template-flat#readme"
+  "homepage": "https://github.com/glenashley/project-template-flat#readme",
+  "devDependencies": {
+    "browser-sync": "^2.10.0",
+    "gulp": "^3.9.0",
+    "gulp-jade": "^1.1.0",
+    "gulp-plumber": "^1.0.1",
+    "node-notifier": "^4.3.1"
+  }
 }

@@ -1,0 +1,18 @@
+extends layouts/main
+
+block vars
+	//- add any page specific vars here that you need in the layout
+	- var title = 'home';
+
+block body
+
+	h1 Project home page
+
+	p Find this file in <code>/source/views/index.jade</code>
+
+	include partials/example
+
+
+block scripts
+	//- page specific scripts (entry scripts are named _.main.js)
+	script(src='/scripts/home.main.js')
