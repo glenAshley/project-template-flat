@@ -12,10 +12,11 @@ var jade = require('gulp-jade');
 // styles, scripts
 var sourcemaps = require('gulp-sourcemaps');
 // styles
-var lessPaths = [path.join(__dirname, 'node_modules/normalize.css')];
 var less = require('gulp-less');
 var AutoPrefix = require('less-plugin-autoprefix');
 var autoprefix = new AutoPrefix({browsers: ['last 2 versions']});
+var CleanCSS = require('less-plugin-clean-css');
+var cleancss = new CleanCSS({advanced: true});
 // scripts
 var through = require('through2');
 var browserify = require('browserify');
@@ -24,6 +25,8 @@ var babel = require('babelify');
 var uglify = require('gulp-uglify');
 var buffer = require('vinyl-buffer');
 var source = require('vinyl-source-stream');
+
+var production = process.env.NODE_ENV == 'production';
 
 // constants
 var PNG_OPTS = {quality: '85-90', speed: 1};
@@ -93,14 +96,13 @@ gulp.task('reload-templates', ['templates'], () => bs.reload());
 	compile LESS files into one CSS
 */
 gulp.task('styles', function() {
-	return gulp.src('./source/styles/main.less')
+	var plugins = [autoprefix, production && cleancss].filter(x=>x);
+
+	gulp.src('./source/styles/main.less')
 		.pipe(onError('styles'))
 		.pipe(sourcemaps.init())
-		.pipe(less({
-			plugins: [autoprefix],
-			paths: lessPaths
-		}))
-		.pipe(sourcemaps.write())
+		.pipe(less({plugins}))
+		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('./dist/styles'))
 		.pipe(bs.stream());
 });
@@ -113,17 +115,22 @@ gulp.task('styles', function() {
 */
 function watchified(file, enc, next) {
 	var done = 0;
-	var bundler = watchify(browserify(file.path, {debug: true}).transform(babel));
+	var bundler = browserify(file.path, {debug: true}).transform(babel);
+	if (!production) bundler = watchify(bundler);
 
 	function makeBundle() {
-		bundler.bundle()
+		var bundle = bundler.bundle()
 			.on('end', ()=>!done++ && next())
-			.pipe(source(path.basename(file.path)))
-			.pipe(buffer())
-			.pipe(sourcemaps.init({loadMaps: true}))
+			.pipe(source(path.basename(file.path)));
+
+		if (production) {
+			bundle = bundle.pipe(buffer())
+				.pipe(sourcemaps.init({loadMaps: true}))
 				.pipe(uglify())
-			.pipe(sourcemaps.write('.', {sourceRoot: '/'}))
-			.pipe(gulp.dest('./dist/scripts'))
+				.pipe(sourcemaps.write('.', {sourceRoot: '/'}));
+		}
+
+		bundle.pipe(gulp.dest('./dist/scripts'))
 			.pipe(bs.stream());
 	}
 
@@ -139,6 +146,6 @@ gulp.task('scripts', function() {
 });
 
 
+gulp.task('build', ['copy', 'templates', 'styles', 'scripts']);
 gulp.task('watch', ['copy', 'templates', 'styles', 'scripts', 'serve']);
 gulp.task('default', ['watch']);
-
