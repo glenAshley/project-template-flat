@@ -9,6 +9,13 @@ var bs = require('browser-sync').create();
 var pngquant = require('imagemin-pngquant');
 // templates
 var jade = require('gulp-jade');
+// styles, scripts
+var sourcemaps = require('gulp-sourcemaps');
+// styles
+var lessPaths = [path.join(__dirname, 'node_modules/normalize.css')];
+var less = require('gulp-less');
+var AutoPrefix = require('less-plugin-autoprefix');
+var autoprefix = new AutoPrefix({browsers: ['last 2 versions']});
 // constants
 var PNG_OPTS = {quality: '85-90', speed: 1};
 
@@ -29,9 +36,10 @@ var onError = function(label) {
 // the second option is dependencies that need to finish first
 gulp.task('serve', ['copy', 'templates', 'styles'], ()=>{
 	bs.init({server: 'dist'});
-	gulp.watch('source/views/**/*.jade', ['reload-templates']);
 	// give file time to copy with `debounceLeading` option
 	gulp.watch('source/{fonts,images}/**/*', {debounceLeading: false}, copy);
+	gulp.watch('source/views/**/*.jade', ['reload-templates']);
+	gulp.watch('source/styles/**/*.less', ['styles']);
 });
 
 
@@ -60,6 +68,20 @@ gulp.task('templates', function() {
 
 // wait for *all* templates to finish before reloading
 gulp.task('reload-templates', ['templates'], ()=>bs.reload());
+
+
+gulp.task('styles', function() {
+	return gulp.src('source/styles/main.less')
+		.pipe(onError('styles'))
+		.pipe(sourcemaps.init())
+		.pipe(less({
+			plugins: [autoprefix],
+			paths: lessPaths
+		}))
+		.pipe(sourcemaps.write())
+		.pipe(gulp.dest('dist/styles'))
+		.pipe(bs.stream());
+});
 
 
 gulp.task('watch', ['copy', 'templates', 'styles', 'serve']);

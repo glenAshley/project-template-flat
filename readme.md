@@ -11,4 +11,10 @@ Add the following to the project's `.sublime-project` file in `folders`
 		"dist",
 		"fonts"
 	]
+```
 
+## Fonts
+
+1. Create a font set at [fontello](http://fontell.com)
+1. copy the `icons.woff` file into `source/fonts/`
+1. and copy the icon codes into `/source/styles/components/icons.less`

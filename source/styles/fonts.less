@@ -1,0 +1,74 @@
+
+//
+// a practicle level of support using WOFF and WOFF2
+// https://css-tricks.com/snippets/css/using-font-face/
+//
+
+
+// Fira Sans
+// https://github.com/mozilla/Fira
+
+@font-face {
+	font-family: 'Fira Sans';
+	src: url('/fonts/FiraSans-Light.woff2') format('woff2'),
+		url('/fonts/FiraSans-Light.woff') format('woff');
+	font-weight: 400;
+}
+
+@font-face {
+	font-family: 'Fira Sans';
+	src: url('/fonts/FiraSans-LightItalic.woff2') format('woff2'),
+		url('/fonts/FiraSans-LightItalic.woff') format('woff');
+	font-weight: 400;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Fira Sans';
+	src: url('/fonts/FiraSans-Medium.woff2') format('woff2'),
+		url('/fonts/FiraSans-Medium.woff') format('woff');
+	font-weight: 700;
+}
+
+@font-face {
+	font-family: 'Fira Sans';
+	src: url('/fonts/FiraSans-MediumItalic.woff2') format('woff2'),
+		url('/fonts/FiraSans-MediumItalic.woff') format('woff');
+	font-weight: 700;
+	font-style: italic;
+}
+
+
+
+// override default monospace with Source Code Pro
+// https://github.com/adobe-fonts/source-code-pro/releases/latest
+
+@font-face {
+	font-family: monospace;
+	src: url('/fonts/SourceCodePro-Regular.otf.woff2') format('woff2'),
+		url('/fonts/SourceCodePro-Regular.otf.woff') format('woff');
+	font-weight: 400;
+}
+
+@font-face {
+	font-family: monospace;
+	src: url('/fonts/SourceCodePro-It.otf.woff2') format('woff2'),
+		url('/fonts/SourceCodePro-It.otf.woff') format('woff');
+	font-weight: 400;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: monospace;
+	src: url('/fonts/SourceCodePro-Bold.otf.woff2') format('woff2'),
+		url('/fonts/SourceCodePro-Bold.otf.woff') format('woff');
+	font-weight: 700;
+}
+
+@font-face {
+	font-family: monospace;
+	src: url('/fonts/SourceCodePro-BoldIt.otf.woff2') format('woff2'),
+		url('/fonts/SourceCodePro-BoldIt.otf.woff') format('woff');
+	font-weight: 700;
+	font-style: italic;
+}

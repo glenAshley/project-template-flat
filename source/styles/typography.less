@@ -1,0 +1,31 @@
+html {
+	font-size: @base-font-size;
+}
+
+body {
+	font-family: @body-font;
+	color: @text;
+	line-height: 1.5;
+
+	-webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+	margin: 0;
+
+	font-weight: bold;
+}
+
+h1, h2 {
+	font-family: @feature-font;
+}
+
+
+a {
+	color: @primary;
+	text-decoration: none;
+
+	&:hover {
+		color: @text;
+	}
+}
