@@ -1,0 +1,19 @@
+{
+	"ecmaFeatures": {
+	},
+	"env": {
+		"node": true,
+		"browser": true,
+		"es6": true,
+	},
+	"globals": {
+	},
+	"plugins": [
+	],
+	"rules": {
+		"no-unused-vars": [1],
+		"no-undef": [2],
+		"no-mixed-spaces-and-tabs": [2],
+		"semi": [2],
+	}
+}
