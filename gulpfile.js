@@ -51,9 +51,11 @@ var onError = function(label) {
 */
 gulp.task('serve', ['copy', 'templates', 'styles', 'scripts'], () => {
 	bs.init({server: 'dist'});
-	gulp.watch('./source/{fonts,images}/**/*', {debounceLeading: false}, copy);
-	gulp.watch('./source/views/**/*.jade', ['reload-templates']);
-	gulp.watch('./source/styles/**/*.less', ['styles']);
+	// note: gulp.watch doesn't work for added files when
+	// path begins with './'
+	gulp.watch('source/{fonts,images}/**/*', {debounceLeading: false}, copy);
+	gulp.watch('source/views/**/*.jade', ['reload-templates']);
+	gulp.watch('source/styles/**/*.less', ['styles']);
 });
 
 
