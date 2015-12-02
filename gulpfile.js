@@ -1,3 +1,4 @@
+var debounce = require('lodash/function/debounce');
 var path = require('path');
 var gulp = require('gulp');
 // for errors
@@ -30,6 +31,7 @@ var production = process.env.NODE_ENV == 'production';
 
 // constants
 var PNG_OPTS = {quality: '85-90', speed: 1};
+var FILE_DELAY = 1000; // give files time to save
 
 
 /*
@@ -51,23 +53,29 @@ var onError = function(label) {
 */
 gulp.task('serve', ['copy', 'templates', 'styles', 'scripts'], () => {
 	bs.init({server: 'dist'});
-	// note: gulp.watch doesn't work for added files when
-	// path begins with './'
-	gulp.watch('source/{fonts,images}/**/*', {debounceLeading: false}, copy);
+	// give files time to save by de-bouncing
+	gulp.watch('source/{fonts,images}/**/*', debounce(copy, FILE_DELAY));
 	gulp.watch('source/views/**/*.jade', ['reload-templates']);
 	gulp.watch('source/styles/**/*.less', ['styles']);
+	// note: gulp.watch doesn't work for added files when paths begins with './'
 });
 
 
 /*
 	copy fonts and images to `dist`, and squash the PNG files
 */
+var fileBlock = {};
 function copy(file) {
+	if (fileBlock[file.path]) return;
+	// prevent the squashing file from
+	fileBlock[file.path] = true;
 	var folder = path.dirname(file.path).split('source')[1];
-	return gulp.src(file.path, {cwd: 'source' + folder})
+
+	gulp.src(file.path, {cwd: 'source' + folder})
 		.pipe(pngquant(PNG_OPTS)())
 		.pipe(gulp.dest('source' + folder))
 		.pipe(gulp.dest('dist' + folder))
+		.on('end', () => setTimeout(() => fileBlock[file.path] = false, FILE_DELAY * 2))
 		.pipe(bs.stream());
 }
 
@@ -85,7 +93,7 @@ gulp.task('templates', function() {
 	// return the stream so Gulp knows we're finished
 	return gulp.src('./source/views/*.jade')
 		.pipe(onError('templates'))
-		.pipe(jade())
+		.pipe(jade({pretty: !production}))
 		.pipe(gulp.dest('./dist'));
 });
 

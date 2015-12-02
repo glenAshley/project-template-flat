@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "description": "Template for flat project",
-  "main": "source/index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rm -rf ./dist/ && NODE_ENV=production gulp build",
